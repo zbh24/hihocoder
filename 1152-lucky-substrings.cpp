@@ -5,276 +5,45 @@
 #include <iostream>
 #include <string>
 #include <set>
-#include <vector>
 #include <algorithm>
  
 using namespace std;
-
-
-int martx[10][10] = {
-                    {1,0,0,0,0,0,0,0,0,0}, //0
-		    {1,1,1,1,1,1,1,1,1,1}, //1
-		    {1,0,1,1,0,1,1,0,1,1}, //2
-		    {0,0,0,1,0,0,1,0,0,1}, //3
-		    {1,0,0,0,1,1,1,1,1,1}, //4
-		    {1,0,0,0,0,1,1,0,1,1}, //5
-		    {0,0,0,0,0,0,1,0,0,1}, //6
-		    {1,0,0,0,0,0,0,1,1,1}, //7
-		    {1,0,0,0,0,0,0,0,1,1}, //8
-		    {0,0,0,0,0,0,0,0,0,1}  //9
-};
-
-string s;
-vector<int> value;
-vector<int> res;
-int length;
-int flag;
-
-int look_less(int k,int less) {
-  int i;
-
-  for(i = 9; i >= 0;i--) {
-    if(martx[k][i] == 1 && i < less)
-      return i;
-  }
-  return -1;
-}
-
-
-bool cmp(vector<int>& x,vector<int>& y) {
-  int len = min(x.size(),y.size());
-  int i;
-
-  for(i = 0;i < len;i ++)
-    if(x[i] == y[i])
-      continue;
-    else if(x[i] < y[i])
-      return true;
-    else 
-      return false;
-  return true;
-}
-
-
-int change() {
-  int i;
-
-  // cout <<"legnh" << s.length() <<endl;
-  for(i = 0;i<s.length();i++)
-    value.push_back((s[i] -'0'));
-  return 0;
-}
-
-int dfs(int i ,int key,int next) {
-  int j;
-  
-  if(!cmp(res,value))
-    return 0;
-
-  if(i >= length) {
-      flag = true;
-      return 0;
-  }
-
-  for(j = next; j >= 0 ;) {
-    if(!flag) {
-      res.push_back(j);
-      dfs(i+1,j,look_less(j,10));
-      if(!flag)
-	res.pop_back();
-    }
-    j = look_less(key,j);
-  }
-  return 0;
-}
-
-int getvalue() {
-  int i,j;
-  int first_value;
-
-  // initioliza
-  value.clear();
-  res.clear();
-  flag = false;
-  change();
-
-  length =  value.size();
-  if(length == 1) {
-    res = value;
-    return 0;
-  }
-  res.push_back(value[0]);
-  dfs(1,value[0],look_less(value[0],10));
-  if(!flag) {
-    res.pop_back();
-    res.push_back(value[0]-1);
-    dfs(1,value[0]-1,look_less(value[0],10));
-  }
-  return 0;
-}
-
-
-
-
-int main() {
-  int n;
-  int i;
-  vector<int> ::iterator it;
-
-  while(cin>>n) {
-    for(i = 0;i < n ;i++) {
-      cin >> s ;
-      getvalue();
-      it = res.begin();
-      while(it != res.end()) {
-	cout <<*it;
-	it++;
-      }
-      cout << endl;
-    }
-  }
-  return 0;
-}
-
-
-
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <math.h>
-#include <iostream>
-#include <string>
-#include <set>
-#include <vector>
-#include <algorithm>
  
-using namespace std;
-
-
-int martx[10][10] = {
-                    {1,0,0,0,0,0,0,0,0,0}, //0
-		    {1,1,1,1,1,1,1,1,1,1}, //1
-		    {1,0,1,1,0,1,1,0,1,1}, //2
-		    {0,0,0,1,0,0,1,0,0,1}, //3
-		    {1,0,0,0,1,1,1,1,1,1}, //4
-		    {1,0,0,0,0,1,1,0,1,1}, //5
-		    {0,0,0,0,0,0,1,0,0,1}, //6
-		    {1,0,0,0,0,0,0,1,1,1}, //7
-		    {1,0,0,0,0,0,0,0,1,1}, //8
-		    {0,0,0,0,0,0,0,0,0,1}  //9
-};
-
-string s;
-vector<int> value;
-vector<int> res;
-int length;
-int flag;
-
-int look_less(int k,int less) {
-  int i;
-
-  for(i = 9; i >= 0;i--) {
-    if(martx[k][i] == 1 && i < less)
-      return i;
-  }
-  return -1;
-}
-
-
-bool cmp(vector<int>& x,vector<int>& y) {
-  int len = min(x.size(),y.size());
-  int i;
-
-  for(i = 0;i < len;i ++)
-    if(x[i] == y[i])
-      continue;
-    else if(x[i] < y[i])
-      return true;
-    else 
-      return false;
-  return true;
-}
-
-
-int change() {
-  int i;
-
-  // cout <<"legnh" << s.length() <<endl;
-  for(i = 0;i<s.length();i++)
-    value.push_back((s[i] -'0'));
-  return 0;
-}
-
-int dfs(int i ,int key,int next) {
-  int j;
-  
-  if(!cmp(res,value))
-    return 0;
-
-  if(i >= length) {
-      flag = true;
-      return 0;
-  }
-
-  for(j = next; j >= 0 ;) {
-    if(!flag) {
-      res.push_back(j);
-      dfs(i+1,j,look_less(j,10));
-      if(!flag)
-	res.pop_back();
+int main()
+{
+    string s, cur;
+    set<string>t;
+    cin>>s;
+    int len=s.size();
+    int i, j, k;
+    int a[26];
+    for(i=0; i<len; i++)
+    {
+        for(j=1; i+j<=len; j++)
+        {
+            cur = s.substr(i, j);
+            //cout<<cur<<endl;
+            int length=cur.size();
+            memset(a,0,sizeof(a));
+            for(k=0; k<length; k++)
+            {
+                a[cur[k]-97]=1;
+            }
+            int cnt=0;
+            for(k=0; k<26; k++){
+                if(a[k]>0)
+                    cnt++;
+            }
+            if(cnt==1||cnt==2||cnt==3||cnt==5||cnt==8||cnt==13||cnt==21
+               ||cnt==34||cnt==55||cnt==89)
+               t.insert(cur);
+        }
     }
-    j = look_less(key,j);
-  }
-  return 0;
-}
-
-int getvalue() {
-  int i,j;
-  int first_value;
-
-  // initioliza
-  value.clear();
-  res.clear();
-  flag = false;
-  change();
-
-  length =  value.size();
-  if(length == 1) {
-    res = value;
-    return 0;
-  }
-  res.push_back(value[0]);
-  dfs(1,value[0],look_less(value[0],10));
-  if(!flag) {
-    res.pop_back();
-    res.push_back(value[0]-1);
-    dfs(1,value[0]-1,look_less(value[0],10));
-  }
-  return 0;
-}
-
-
-
-
-int main() {
-  int n;
-  int i;
-  vector<int> ::iterator it;
-
-  while(cin>>n) {
-    for(i = 0;i < n ;i++) {
-      cin >> s ;
-      getvalue();
-      it = res.begin();
-      while(it != res.end()) {
-	cout <<*it;
-	it++;
-      }
-      cout << endl;
+    set<string>::iterator it=t.begin();
+    while(it!=t.end())
+    {
+        cout<<*it<<endl;
+        it++;
     }
-  }
-  return 0;
+    return 0;
 }
-
-
-
